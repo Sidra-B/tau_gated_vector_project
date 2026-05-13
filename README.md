@@ -1,5 +1,5 @@
 Tau Gated Vector Project
-Objective: Design "auto-gated" gene therapy vectors that trigger therapeutic expression only in neurons with tau pathology.
+Objective: Design autogated gene therapy vectors that trigger therapeutic expression only in neurons with tau pathology.
 
 Strategy
 - Mechanism: Use tau-induced cryptic splicing as a biological "ON" switch.
@@ -11,7 +11,7 @@ Pipeline
 - Design: Use iCLIP RNA maps and Splice Nouveau to evolve gated introns.
 
 Current Status
-- rMATS: Completed (183M reads processed; 19,884 SE events detected).
+- rMATS: Completed (183M reads processed; 19,884 potential SE events detected, of those 1,114 having enough read coverage to be statistacally analysed).
 - Next: Ranking top cryptic candidates for motif analysis.
 
 Supervisors: Jernej Ule, Charlotte Capitanchik, Guillermo Parada.
