@@ -1,0 +1,7 @@
+bam_files/
+rmats_tmp/
+rmats_output/
+*.bam
+*.bai
+*.gtf
+*.gz
