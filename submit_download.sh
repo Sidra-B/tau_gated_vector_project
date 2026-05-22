@@ -1,24 +1,25 @@
 #!/bin/bash
-#SBATCH --job-name=test_dl
-#SBATCH --mem=2G
-#SBATCH --time=02:00:00
-#SBATCH --output=test_log_%j.out
+#SBATCH --job-name=tau_dl
+#SBATCH --mem=4G
+#SBATCH --time=04:00:00
+#SBATCH --output=download_tau_%j.out
+#SBATCH --error=download_tau_%j.err
 
-cd "/scratch/prj/ppn_rnp_networks/users/sidra.bichay/hnRNPH1_IR_MAF"
+# Project pathway
+cd "/scratch/prj/ppn_rnp_networks/users/sidra.bichay/tau_gated_vector_project"
 
-echo "Starting test..."
+echo "Starting download script..."
 echo "Current directory: $(pwd)"
-echo "FLOW_USERNAME is set to: ${FLOW_USERNAME:-NOT SET}"
 
+# Explicitly pass authentication keys
 export FLOW_USERNAME="Sidra-B"
 export FLOW_PASSWORD="Unstaffed77tapioca"
 
-echo "About to run Python script..."
-python3 --version
-python3 download_bams.py 2>&1 | head -100
-echo "Script finished"
-EOF
-chmod +x test_download.sh
-sbatch test_download.sh
-sleep 3
-tail -100 test_log_*.out
+# Force clear out old files for updated data
+rm -rf bam_files
+mkdir -p bam_files
+
+echo "Executing Python file download layout..."
+python3 download_bams.py
+
+echo "Job process sequence finished."

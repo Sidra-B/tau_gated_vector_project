@@ -19,7 +19,7 @@ cd /scratch/prj/ppn_rnp_networks/users/sidra.bichay/tau_gated_vector_project
 # 3. Ensure directories exist 
 mkdir -p rmats_output rmats_tmp
 
-echo "Starting rMATS analysis for Tau S305N Gated Vector Design..."
+echo "Starting rMATS analysis for Tau S305N Gated Vector Design (Fresh Overwrite)..."
 echo "Job ID: ${SLURM_JOB_ID}"
 echo "Start time: $(date)"
 
@@ -27,7 +27,7 @@ echo "Start time: $(date)"
 rmats.py \
   --b1 b1_sorted.txt \
   --b2 b2_sorted.txt \
-  --gtf Mus_musculus.GRCm38.102.gtf \
+  --gtf Mus_musculus.GRCm39.110.gtf \
   --od rmats_output \
   --tmp rmats_tmp \
   --task both \

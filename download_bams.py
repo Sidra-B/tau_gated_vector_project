@@ -3,7 +3,7 @@ import requests
 import re
 
 BASE_URL = "https://app.flow.bio/api"
-EXECUTION_ID = "217355724138635100"
+EXECUTION_ID = "923930691099489556"
 DOWNLOAD_DIR = "./bam_files"
 
 USERNAME = os.getenv("FLOW_USERNAME")
@@ -28,7 +28,14 @@ os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
 # Get execution data
 print(f"Fetching execution {EXECUTION_ID}...")
-execution_data = s.get(f"{BASE_URL}/executions/{EXECUTION_ID}").json()
+try:
+    exec_resp = s.get(f"{BASE_URL}/executions/{EXECUTION_ID}")
+    exec_resp.raise_for_status() # Catches 404s/500s before parsing JSON
+    execution_data = exec_resp.json()
+except Exception as e:
+    print(f"✗ Failed to fetch execution data: {e}")
+    exit(1)
+
 process_execs = execution_data.get("process_executions", [])
 
 # Find all sorted.bam files
@@ -47,7 +54,7 @@ for proc in process_execs:
     for file_obj in downstream:
         filename = file_obj.get("filename", "")
         
-        # Look for sorted.bam and sorted.bam.bai files
+        # Search filter (Indentation fixed here)
         if re.search(r'.*sorted\.bam(\.bai)?$', filename):
             found_files.append(file_obj)
             print(f"✓ Found: {filename}")
@@ -79,10 +86,12 @@ for file_obj in found_files:
                     f.write(chunk)
                     downloaded += len(chunk)
                     percent = (downloaded / file_size * 100) if file_size > 0 else 0
-                    print(f"  {percent:.1f}% complete", end='\r')
+                    # Added padding spaces to ensure clean terminal overwriting
+                    print(f"  {percent:.1f}% complete          ", end='\r')
         
-        print(f"✓ Downloaded: {filepath}")
+        # Added padding here as well
+        print(f"✓ Downloaded: {filepath}                 ")
     except Exception as e:
-        print(f"✗ Failed to download {filename}: {e}")
+        print(f"\n✗ Failed to download {filename}: {e}")
 
 print("\n✓ Download complete!")
