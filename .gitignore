@@ -5,3 +5,5 @@ rmats_output/
 *.bai
 *.gtf
 *.gz
+*.err
+*.out
