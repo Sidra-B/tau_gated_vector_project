@@ -10,3 +10,7 @@ sashimi_output
 *.out
 Mus_musculus.GRCm39.dna.primary_assembly.fa*
 SpliceNouveau/
+data/raw/
+data/reference/
+software/
+results/rmats/
