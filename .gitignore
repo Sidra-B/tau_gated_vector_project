@@ -1,9 +1,12 @@
 bam_files/
 rmats_tmp/
 rmats_output/
+sashimi_output
 *.bam
 *.bai
 *.gtf
 *.gz
 *.err
 *.out
+Mus_musculus.GRCm39.dna.primary_assembly.fa*
+SpliceNouveau/
