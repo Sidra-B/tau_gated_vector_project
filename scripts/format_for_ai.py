@@ -1,5 +1,5 @@
-INPUT_FASTA = "results/top20_expanded_sequences.fa"
-OUTPUT_FASTA = "results/formatted_for_ai.fa"
+INPUT_FASTA = "results/top8_expanded_sequences.fa"
+OUTPUT_FASTA = "results/top8_formatted_for_ai.fa"
 PADDING = 300
 
 print(f"Formatting sequences from {INPUT_FASTA}...")
