@@ -24,7 +24,7 @@ def parse_min_cov(row):
     sjc = [float(x) for x in str(row['SJC_SAMPLE_1']).split(',') if x.strip() not in ('NA', '')]
     return min([i + s for i, s in zip(ijc, sjc)]) if (ijc and len(ijc) == len(sjc)) else 0
 
-# MAIN PIPELINE EXECUTION
+# MAIN PIPELINE
 if __name__ == "__main__":
     print(f"Loading rMATS data from: {INPUT_RMATS}...")
     df = pd.read_csv(INPUT_RMATS, sep='\t')
@@ -39,17 +39,17 @@ if __name__ == "__main__":
     df['Min_Coverage'] = df.apply(parse_min_cov, axis=1)
 
     # Filter dataset using the parameters defined at the top
+    # 1. 'IncLevelDifference' ascending (most negative / closest to -1 first)
+    # 2. 'WT_PSI_Avg' ascending (closest to 0.0 background usage first)
     filtered = df[
         (df['FDR'] < FDR_TH) & 
         (df['IncLevelDifference'].abs() >= DPSI_TH) & 
         (df['WT_PSI_Avg'] <= WT_PSI_TH) & 
         (df['Min_Coverage'] >= COV_TH)
-    ].sort_values(by='FDR')
+    ].sort_values(by=['IncLevelDifference', 'WT_PSI_Avg'], ascending=[True, True])
 
-    # Export 1: Detailed CSV Report
+    # Export
     filtered.to_csv(OUT_CSV, index=False)
-    
-    # Export 2: Standard Genomic BED File (Select and reorder columns directly)
     bed_cols = ['chr', 'exonStart_0base', 'exonEnd', 'geneSymbol', 'IncLevelDifference', 'strand']
     filtered[bed_cols].to_csv(OUT_BED, sep='\t', header=False, index=False)
 
